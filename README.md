@@ -1,12 +1,58 @@
-# React + Vite
+# 💸 Spending Tracker Web App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A React.js web application for tracking personal expenses. Built as a group project to visualize and manage spending using charts and journal entries — fully powered by LocalStorage.
 
-Currently, two official plugins are available:
+## 🔗 Live Demo
+[View on GitHub Pages](https://u6610996.github.io/spending_tracker)
+## 📄 Features
+### 🧾 Page 1: Journal
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Add spending records with: ✅ 
+  - Date (no time) ✅ 
+  - Category (from preloaded list or custom) ✅ 
+  - Amount ✅ 
+- View saved records in a list ✅ 
+- Delete saved records ✅ 
+- Save custom categories not in the default list (and remove) ✅
+- Stored using `localStorage` (no backend needed) ✅ 
 
-## Expanding the ESLint configuration
+### 📊 Page 2: Analytics Dashboard
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- Switch between:✅
+  - Daily✅
+  - Weekly✅
+  - Monthly views✅
+- View **total spending of all time** and **of the selected month**✅
+- Visualize spending using:
+  - 📈 Line chart✅
+  - 🥧 Pie chart✅
+- Grouped by category✅
+
+---
+
+## 🖼️ Screenshots
+
+> (📷 Add screenshots here after deploying — e.g., Journal page, Dashboard page)
+
+---
+
+## 👥 Team Members
+
+- Ratchanon puwapattaraokin
+- Worachai Aranchot
+
+---
+
+## 🚀 How to Run Locally
+
+1. Clone the repo:
+   ```bash
+   cd to your project
+   git clone https://github.com/u6610996/spending_tracker.git
+   cd spending_tracker
+   npm install
+   npm install recharts
+   npm install react-datepicker
+   npm install date-fns
+   npm run dev
+

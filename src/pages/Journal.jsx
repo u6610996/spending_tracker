@@ -1,155 +1,178 @@
 import React, { useState, useEffect } from "react";
-import defaultCategories from "../data/spending_data.json";
+import spendingData from "../data/spending_data.json";
 
-function Journal() {
-  const [form, setForm] = useState({
-    date: "",
-    category: "",
-    customCategory: "",
-    amount: ""
-  });
+// LocalStorage keys used to store data (same as Dashboard.jsx)
+const CUSTOM_KEY = "customCategories";
+const RECORD_KEY = "savedRecords";
 
-  const [records, setRecords] = useState([]);
-
-  useEffect(() => {
-    const saved = JSON.parse(localStorage.getItem("spendingRecords")) || [];
-    setRecords(saved);
-  }, []);
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if (!form.date || !form.amount || (!form.category && !form.customCategory)) {
-      alert("Please fill in all required fields.");
-      return;
-    }
-
-    const selectedCategory =
-      form.category === "Other"
-        ? form.customCategory.trim()
-        : form.category;
-
-    const newRecord = {
-      date: form.date,
-      category: selectedCategory,
-      amount: parseFloat(form.amount)
-    };
-
-    const updated = [...records, newRecord];
-    setRecords(updated);
-    localStorage.setItem("spendingRecords", JSON.stringify(updated));
-
-    setForm({ date: "", category: "", customCategory: "", amount: "" });
-  };
-
-  const handleDelete = (indexToDelete) => {
-    const updated = records.filter((_, index) => index !== indexToDelete);
-    setRecords(updated);
-    localStorage.setItem("spendingRecords", JSON.stringify(updated));
-  };
-
-  const categoryOptions = [
-    ...defaultCategories.map((item) => item.category),
-    "Other"
+const Journal = () => {
+  // Default categories come from JSON file
+  const defaultCategories = [
+    ...new Set(spendingData.map((item) => item.category)),
   ];
 
-  return (
-    <div style={{ padding: "1rem", maxWidth: "500px", margin: "0 auto" }}>
-      <h1>📝 Spending Journal</h1>
+  // State for managing UI and storage
+  const [customCategories, setCustomCategories] = useState([]);
+  const [newCategory, setNewCategory] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("");
+  const [amount, setAmount] = useState("");
+  const [date, setDate] = useState("");
+  const [savedRecords, setSavedRecords] = useState([]);
 
-      <form onSubmit={handleSubmit}>
-        <div style={{ marginBottom: "1rem" }}>
-          <label>Date: </label><br />
+  // Load custom categories and saved records on component load
+  useEffect(() => {
+    const storedCustom = JSON.parse(localStorage.getItem(CUSTOM_KEY)) || [];
+    let storedRecords = JSON.parse(localStorage.getItem(RECORD_KEY)) || [];
+
+    // Fix: Make sure each record has a unique id (for delete function to work properly)
+    storedRecords = storedRecords.map((record) => ({
+      ...record,
+      id: record.id || Date.now() + Math.random(),
+    }));
+
+    setCustomCategories(storedCustom);
+    setSavedRecords(storedRecords);
+    localStorage.setItem(RECORD_KEY, JSON.stringify(storedRecords)); // save back with ids
+  }, []);
+
+  // Save category list to localStorage
+  const saveCustomCategories = (categories) => {
+    localStorage.setItem(CUSTOM_KEY, JSON.stringify(categories));
+  };
+
+  // Save records to localStorage
+  const saveRecords = (records) => {
+    localStorage.setItem(RECORD_KEY, JSON.stringify(records));
+  };
+
+  // Add a new custom category
+  const handleAddCategory = () => {
+    if (newCategory && !customCategories.includes(newCategory)) {
+      const updated = [...customCategories, newCategory];
+      setCustomCategories(updated);
+      saveCustomCategories(updated);
+      setNewCategory("");
+    }
+  };
+
+  // Remove a custom category (does not remove existing records)
+  const handleDeleteCategory = (category) => {
+    const updated = customCategories.filter((c) => c !== category);
+    setCustomCategories(updated);
+    saveCustomCategories(updated);
+  };
+
+  // Add a new spending record
+  const handleSaveRecord = () => {
+    if (!selectedCategory || !amount || !date) return;
+    const newRecord = {
+      id: Date.now(), // timestamp is good enough for uniqueness
+      category: selectedCategory,
+      amount: parseFloat(amount),
+      date,
+    };
+    const updated = [...savedRecords, newRecord];
+    setSavedRecords(updated);
+    saveRecords(updated);
+    setAmount("");
+    setDate("");
+    setSelectedCategory("");
+  };
+
+  // Remove a specific record
+  const handleDeleteRecord = (id) => {
+    const updated = savedRecords.filter((r) => r.id !== id);
+    setSavedRecords(updated);
+    saveRecords(updated);
+  };
+
+  // Combine default and custom categories
+  const allCategories = [...defaultCategories, ...customCategories];
+
+  return (
+    <div style={{ padding: "20px", maxWidth: "600px", margin: "0 auto" }}>
+      <h2>Spending Journal</h2>
+
+      {/* ============ Add Record ============ */}
+      <div style={{ marginBottom: "20px" }}>
+        <h4>Add New Record</h4>
+        <label>
+          Date:
           <input
             type="date"
-            name="date"
-            value={form.date}
-            onChange={handleChange}
-            required
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
           />
-        </div>
-
-        <div style={{ marginBottom: "1rem" }}>
-          <label>Category: </label><br />
+        </label>
+        <br />
+        <label>
+          Category:
           <select
-            name="category"
-            value={form.category}
-            onChange={handleChange}
-            required
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
           >
-            <option value="">-- Select Category --</option>
-            {categoryOptions.map((cat, idx) => (
-              <option key={idx} value={cat}>
+            <option value="">Select</option>
+            {allCategories.map((cat, index) => (
+              <option key={index} value={cat}>
                 {cat}
               </option>
             ))}
           </select>
-        </div>
-
-        {form.category === "Other" && (
-          <div style={{ marginBottom: "1rem" }}>
-            <label>Custom Category: </label><br />
-            <input
-              type="text"
-              name="customCategory"
-              placeholder="Enter custom category"
-              value={form.customCategory}
-              onChange={handleChange}
-              required
-            />
-          </div>
-        )}
-
-        <div style={{ marginBottom: "1rem" }}>
-          <label>Amount (฿): </label><br />
+        </label>
+        <br />
+        <label>
+          Amount:
           <input
             type="number"
-            name="amount"
-            value={form.amount}
-            onChange={handleChange}
-            required
+            step="0.01"
+            value={amount}
+            onChange={(e) => setAmount(e.target.value)}
           />
-        </div>
+        </label>
+        <br />
+        <button onClick={handleSaveRecord}>Save Record</button>
+      </div>
 
-        <button type="submit">💾 Save</button>
-      </form>
-
-      <hr style={{ margin: "2rem 0" }} />
-
-      <h2>📋 Saved Records</h2>
-      {records.length === 0 ? (
-        <p>No records yet.</p>
-      ) : (
+      {/* ============ Add Custom Category ============ */}
+      <div style={{ marginBottom: "20px" }}>
+        <h4>Add Custom Category</h4>
+        <input
+          type="text"
+          placeholder="New category"
+          value={newCategory}
+          onChange={(e) => setNewCategory(e.target.value)}
+        />
+        <button onClick={handleAddCategory}>Add</button>
         <ul>
-          {[...records]
-            .sort((a, b) => new Date(b.date) - new Date(a.date))
-            .map((rec, idx) => (
-              <li key={idx} style={{ marginBottom: "0.5rem" }}>
-                📅 {rec.date} — {rec.category} — ฿{rec.amount}
-                <button
-                  onClick={() => handleDelete(idx)}
-                  style={{
-                    marginLeft: "1rem",
-                    background: "red",
-                    color: "white",
-                    border: "none",
-                    padding: "2px 8px",
-                    cursor: "pointer",
-                    borderRadius: "4px"
-                  }}
-                >
-                  🗑 Delete
-                </button>
-              </li>
-            ))}
+          {customCategories.map((cat, index) => (
+            <li key={index}>
+              {cat}{" "}
+              <button onClick={() => handleDeleteCategory(cat)}>Remove</button>
+            </li>
+          ))}
         </ul>
-      )}
+      </div>
+
+      {/* ============ View Records ============ */}
+      <div>
+        <h4>Saved Records</h4>
+        {savedRecords.length === 0 ? (
+          <p>No records yet.</p>
+        ) : (
+          <ul>
+            {[...savedRecords]
+              .sort((a, b) => new Date(b.date) - new Date(a.date)) // latest first
+              .map((record) => (
+                <li key={record.id}>
+                  {record.date} – {record.category} – ${record.amount.toFixed(2)}
+                  <button onClick={() => handleDeleteRecord(record.id)}>Delete</button>
+                </li>
+              ))}
+          </ul>
+        )}
+      </div>
     </div>
   );
-}
+};
 
 export default Journal;

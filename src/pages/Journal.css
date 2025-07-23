@@ -1,30 +1,53 @@
-/* Journal.css */
-.journal {
-  max-width: 600px;
-  margin: auto;
-  padding: 1rem;
+.journal-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
 }
 
-.journal-form {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
+.journal-container h2,
+.journal-container h4 {
+  color: #61dafb;
+  margin-bottom: 1rem;
 }
 
-.journal-form input,
-.journal-form select {
-  padding: 0.5rem;
+.journal-section {
+  margin-bottom: 2rem;
+}
+
+.journal-section label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+}
+
+.journal-section input,
+.journal-section select {
+  width: 100%;
+  padding: 0.6rem;
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  color: #fff;
+  border-radius: 5px;
   font-size: 1rem;
+  margin-bottom: 1rem;
 }
 
-.record-list {
-  list-style: none;
-  padding: 0;
+.journal-section button {
+  margin-top: 0.5rem;
 }
 
-.record-list li {
+.journal-section ul {
+  margin-top: 0.5rem;
+  padding-left: 1rem;
+}
+
+.journal-section li {
   display: flex;
   justify-content: space-between;
-  padding: 0.25rem 0;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #444;
+  padding: 0.5rem 0;
 }

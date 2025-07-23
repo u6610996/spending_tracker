@@ -1,0 +1,79 @@
+.dashboard-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+  border-radius: 12px;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+}
+
+.dashboard-title {
+  font-size: 2.5rem;
+  color: #3cf0ff;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+
+.dashboard-controls {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.dashboard-controls label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 500;
+}
+
+.dashboard-controls select,
+.dashboard-controls input {
+  background-color: #2a2a2a;
+  color: #fff;
+  border: 1px solid #444;
+  border-radius: 5px;
+  padding: 0.6rem;
+  font-size: 1rem;
+  width: 180px;
+}
+
+.total-section {
+  margin-bottom: 2rem;
+}
+
+.total-section h3 {
+  color: #00d27a;
+  margin-bottom: 0.5rem;
+}
+
+.chart-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+}
+
+.chart-box {
+  flex: 1;
+  min-width: 480px;
+  height: 400px;
+  background-color: #1a1a1a;
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+@media screen and (max-width: 1024px) {
+  .dashboard-controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .chart-box {
+    min-width: 100%;
+  }
+  .chart-grid {
+    flex-direction: column;
+  }
+}

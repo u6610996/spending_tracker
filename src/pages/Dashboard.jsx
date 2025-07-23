@@ -5,7 +5,7 @@ import {
 } from 'recharts';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import './MonthPicker.css';
+import './Dashboard.css';
 
 const RECORD_KEY = "savedRecords";
 const COLORS = ['#8884d8', '#82ca9d', '#ffc658', '#ff7f50', '#00bfff', '#ff69b4', '#7b68ee'];

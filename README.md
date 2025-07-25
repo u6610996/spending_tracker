@@ -32,7 +32,14 @@ A React.js web application for tracking personal expenses. Built as a group proj
 
 ## 🖼️ Screenshots
 
-> (📷 Add screenshots here after deploying — e.g., Journal page, Dashboard page)
+### 🏠 Home Page
+![Home Page](./docs/assets/HOME_PAGE.png)
+
+### 📋 Journal Page
+![Journal Page](./docs/assets/JOURNAL_PAGE.png)
+
+### 📊 Dashboard Page
+![Dashboard Page](./docs/assets/DASH_PAGE.png)
 
 ---
 

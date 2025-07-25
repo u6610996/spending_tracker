@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom";
+import { Routes, Route, Link, useLocation } from "react-router-dom";
 import Dashboard from "./pages/Dashboard";
 import Journal from "./pages/Journal";
 import "./App.css";
@@ -32,7 +32,7 @@ const Home = () => (
 
 const App = () => {
   return (
-    <Router>
+    <>
       <Navbar />
       <main className="app-main">
         <Routes>
@@ -41,7 +41,7 @@ const App = () => {
           <Route path="/journal" element={<Journal />} />
         </Routes>
       </main>
-    </Router>
+    </>
   );
 };
 

@@ -1,6 +1,4 @@
-# 💸 Spending Tracker Web App
-
-A React.js web application for tracking personal expenses. Built as a group project to visualize and manage spending using charts and journal entries — fully powered by LocalStorage.
+# 💸 Spending Tracker Web App 💸 
 
 ## 🔗 Live Demo
 [View on GitHub Pages](https://u6610996.github.io/spending_tracker)
@@ -52,7 +50,7 @@ A React.js web application for tracking personal expenses. Built as a group proj
 
 ## 🚀 How to Run Locally
 
-1. Clone the repo:
+1.  How to Run Locally:
    ```bash
    cd to your project
    git clone https://github.com/u6610996/spending_tracker.git
